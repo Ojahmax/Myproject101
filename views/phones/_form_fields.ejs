@@ -1,0 +1,39 @@
+<div>
+    <label>Model</label>
+    <input type="text" name="model" value= "<%= phone.model %>">
+</div>
+
+<div>
+    <label>Brand</label>
+    <select name="brand">
+    <% brands.forEach(brand =>{ %>
+        <% if (brand.id === phone.brand) { %>
+            <option selected label="<%= brand.name %>" value="<%= brand.id %>">
+        <% } else { %>
+            <option label="<%= brand.name %>" value="<%=brand.id %>"></option>
+        <%}%>
+    <% }) %>
+    </select>
+</div>
+<div>
+    <label>description</label>
+    <textarea name="description"><%= phone.description %>"></textarea> 
+</div>
+<div>
+    <label>Release Date</label>
+    <input type="date" name="releaseDate" 
+       value= "<%= phone.releaseDate == null ? '' : 
+       phone.releaseDate.toISOString().split('T')[0] %>">
+</div>
+<div>
+    <label>Quantity</label>
+    <input type="Number" name="quantity" min="1" value= "<%= phone.quantity %>">
+</div>
+<div>
+    <label>Add Date</label>
+    <input type="date" name="addedDate" value= "<%= phone.addedDate %>">
+</div>
+<div>
+    <label>Cover Image</label>
+    <input type="file" name="cover" value= "<%= phone.coverImageName %>">
+</div>

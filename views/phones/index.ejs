@@ -1,0 +1,19 @@
+<h2>Search Phone</h2>>
+<form action="/phones" method="GET">
+    <div>
+        <label>Model</label>
+        <input type="text" name="model" value="<%= searchOptions.model %>">
+        <button type="submit">Search</button>
+    </div>
+    <div>
+        <label>Realese Date</label>
+        <input type="date" name="releaseDate" value="<%= searchOptions.releaseDate %>">
+        <button type="submit">Search</button>
+    </div>
+</form>
+<br>
+<div>
+    <% phons.forEach(phone => {%>
+        <img height="150" width="100" src="<%= phone.coverImagePath %>">
+    <%}) %>
+</div>
