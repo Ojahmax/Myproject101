@@ -4,21 +4,28 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 const Phone = require('../models/phone')
-const uploadPath = path.join('public', Phone.coverImageBasePath)
 const Brand = require('../models/brand')
+const uploadPath = path.join('public', Phone.coverImageBasePath)
 const imageMimeTypes = ['images/jpeg', 'images/png', 'images/gif']
 const upload = multer({
     dest: uploadPath,
-    fileFilter: (req, res, callback) =>{
-        callback(null)
+    fileFilter: (req, file, callback) =>{
+        callback(null, imageMimeTypes.includes(file.mimetype))
     }
 })
 
 router.get('/', async (req, res) => {
+    let query = Phone.find()
+    if (req.query.model != null && req.query.model != '') {
+    query = query.regex('model', new RegExp(req.query.model, 'i'))
+    }
+    if (req.query.releaseDate != null && req.query.releaseDate != '') {
+        query = query.lte('releaseDate', req.query.releaseDate)
+    }
     try {
-        const phones =  await Phone.find({})
+        const phones =  await query.exec()
         res.render('phones/index', {
-            phones: Phones,
+            phones: phones,
             searchOptions: req.query
         })  
 
@@ -31,7 +38,6 @@ router.get('/', async (req, res) => {
 
 router.get('/new', async (req, res) => {
     renderNewPage(res, new Phone())
-
 })
 
 
@@ -54,8 +60,9 @@ router.post('/', upload.single('cover'), async(req, res) => {
     catch {
         if (phone.coverImageName != null){
             removePhoneCover(phone.coverImageName)
-            renderNewPage(res, phone, true)
+            
         }
+        renderNewPage(res, phone, true)
     }
 
 })

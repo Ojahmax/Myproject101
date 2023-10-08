@@ -37,9 +37,9 @@ const phoneSchema = new mongoose.Schema({
 
 phoneSchema.virtual('coverImagePath').get(function(){
     if(this.coverImageName != null){
-        return PaymentMethodChangeEvent,join('/', coverImageBasePath, this.coverImageName)
+       return path.join('/', coverImageBasePath, this.coverImageName)
     }
 })
 
-module.exports = mongoose.model('Phone', phoneSchema),
+module.exports = mongoose.model('Phone', phoneSchema)
 module.exports.coverImageBasePath = coverImageBasePath
